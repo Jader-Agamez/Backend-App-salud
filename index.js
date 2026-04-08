@@ -1,0 +1,12 @@
+const express = require('express')
+const cors = require('cors')
+const app = express()
+
+app.use(cors())
+app.use(express.json())
+
+app.use('/api/eps', require('./routes/eps'))
+app.use('/api/especialistas', require('./routes/especialistas'))
+app.use('/api/hospitales', require('./routes/hospitales'))
+
+app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'))
