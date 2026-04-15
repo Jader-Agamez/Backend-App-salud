@@ -2,7 +2,7 @@ const router = require('express').Router()
 const db = require('../db')
 
 router.get('/', (req, res) => {
-  const { eps_id, especialista_id, nivel_max = 4 } = req.query
+  const { eps_id, especialista_id, nivel = 4 } = req.query
 
   if (!eps_id || !especialista_id)
     return res.status(400).json({ error: 'Parámetros requeridos: eps_id, especialista_id' })
@@ -12,11 +12,11 @@ router.get('/', (req, res) => {
     FROM hospitales h
     INNER JOIN hospital_eps he ON he.hospital_id = h.id AND he.eps_id = ?
     INNER JOIN hospital_especialista hes ON hes.hospital_id = h.id AND hes.especialista_id = ?
-    WHERE h.nivel <= ?
+    WHERE h.nivel = ?
     ORDER BY h.nivel ASC
   `
 
-  db.query(sql, [eps_id, especialista_id, nivel_max], (err, rows) => {
+  db.query(sql, [eps_id, especialista_id, nivel], (err, rows) => {
     if (err) return res.status(500).json({ error: err.message })
     res.json(rows)
   })
